@@ -1,0 +1,46 @@
+# ML Sensor Fusion + EKF Project Environment Settings
+# Copy this file to .env and modify as needed for your environment
+
+# Device Configuration
+DEVICE=cpu
+# DEVICE=cuda  # Uncomment to use GPU if available
+
+# Model Paths
+MODEL_PATH=models/checkpoints/sensor_simulator_best.pt
+TRAINED_MODEL_DIR=models/checkpoints/
+
+# Logging Configuration
+LOG_LEVEL=INFO
+# LOG_LEVEL=DEBUG  # Uncomment for verbose logging
+# LOG_LEVEL=WARNING  # Uncomment for minimal logging
+
+# Training Configuration
+BATCH_SIZE=32
+LEARNING_RATE=0.001
+NUM_EPOCHS=10
+SEQUENCE_LENGTH=50
+
+# Simulation Configuration
+TRAJECTORY_DURATION=10.0
+DT=0.01
+GNSS_RATE=1.0
+
+# Sensor Noise Parameters (optional overrides)
+# ACCEL_NOISE_STD=0.1
+# GYRO_NOISE_STD=0.01
+# GNSS_NOISE_STD=1.0
+
+# EKF Configuration
+# EKF_POSITION_STD=1.0
+# EKF_VELOCITY_STD=0.5
+# EKF_ORIENTATION_STD=0.1
+
+# Data Paths
+DATA_DIR=data/
+GROUND_TRUTH_DIR=data/ground_truth/
+IMU_SIM_DIR=data/imu_sim/
+GNSS_SIM_DIR=data/gnss_sim/
+
+# Optional: Jupyter Configuration
+# JUPYTER_PORT=8888
+# JUPYTER_TOKEN=your_token_here 
