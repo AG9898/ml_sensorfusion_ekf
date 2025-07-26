@@ -20,7 +20,7 @@ from typing import Tuple, Optional
 import warnings
 
 # Import the model class from training script
-from train_sensor_model import SensorSimulationRNN
+from .train_sensor_model import SensorSimulationRNN
 
 
 def load_trained_model(
@@ -227,7 +227,8 @@ def compare_ml_vs_traditional(
     ml_gnss_data: np.ndarray,
     traditional_imu_data: dict,
     traditional_gnss_data: dict,
-    timestamps: np.ndarray
+    timestamps: np.ndarray,
+    ml_gnss_timestamps: np.ndarray = None
 ) -> dict:
     """
     Compare ML-generated sensor data with traditional sensor simulation.
@@ -264,9 +265,17 @@ def compare_ml_vs_traditional(
     
     # GNSS comparison (need to interpolate ML data to match traditional timestamps)
     ml_gnss_interpolated = np.zeros_like(trad_gnss_pos)
+    
+    # Use ML GNSS timestamps if provided, otherwise use full timestamps
+    if ml_gnss_timestamps is None:
+        ml_gnss_timestamps = timestamps
+    
     for i, trad_time in enumerate(traditional_gnss_data['timestamps']):
-        # Find closest ML timestamp
-        ml_idx = np.argmin(np.abs(timestamps - trad_time))
+        # Find closest ML GNSS timestamp
+        ml_idx = np.argmin(np.abs(ml_gnss_timestamps - trad_time))
+        # Add bounds check to prevent IndexError
+        if ml_idx >= len(ml_gnss_data):
+            ml_idx = -1  # fallback to last available ML GNSS
         ml_gnss_interpolated[i] = ml_gnss_data[ml_idx]
     
     gnss_mse = np.mean((ml_gnss_interpolated - trad_gnss_pos) ** 2)

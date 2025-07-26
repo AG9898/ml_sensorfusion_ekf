@@ -402,6 +402,7 @@ class SensorSimulationTrainer:
         print(f"   Learning rate: {self.optimizer.param_groups[0]['lr']}")
         
         best_val_loss = float('inf')
+        best_model_state = None
         
         for epoch in range(num_epochs):
             # Training
@@ -420,9 +421,17 @@ class SensorSimulationTrainer:
             # Track best model
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
+                best_model_state = self.model.state_dict().copy()
                 print(f"   🎯 New best validation loss: {best_val_loss:.6f}")
         
         print(f"✅ Training completed! Best validation loss: {best_val_loss:.6f}")
+        
+        # Save the best model
+        if best_model_state is not None:
+            import os
+            os.makedirs("models/checkpoints", exist_ok=True)
+            torch.save(best_model_state, "models/checkpoints/sensor_simulator_best.pt")
+            print("💾 Best model saved to models/checkpoints/sensor_simulator_best.pt")
     
     def plot_training_history(self):
         """Plot training and validation loss history."""

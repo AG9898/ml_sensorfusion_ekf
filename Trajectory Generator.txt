@@ -1,0 +1,33 @@
+Trajectory Generator
+        ↓
+ Ground Truth States
+        ↓
+┌──────────────────────┐
+│  ML Sensor Simulator │  <─────── Train with synthetic GT
+└──────────────────────┘
+        ↓
+ Simulated IMU + GNSS
+        ↓
+ Noise + Dropout Injection
+        ↓
+┌────────────────────┐
+│       EKF Core     │  <──── Model system & measurement equations
+└────────────────────┘
+        ↓
+ Pose / Velocity / Orientation Estimates
+        ↓
+ Visualization + Error Metrics
+
+
+Tech Stack
+
+Language		Python
+Trajectory Simulation	NumPy, SciPy, Custom 6-DOF kinematics
+ML Modeling		PyTorch (preferred), or TensorFlow
+Filtering		FilterPy, or custom EKF implementation
+Data Handling		Pandas, NumPy
+Visualization		Matplotlib, Plotly
+Evaluation		scikit-learn (metrics), NumPy
+Environment		Jupyter + Cursor IDE
+
+
